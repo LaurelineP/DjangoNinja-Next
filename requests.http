@@ -1,0 +1,28 @@
+### Create a device
+POST http://localhost:8000/api/devices/
+Content-Type: application/json
+
+{
+	"name": "Plop Sensor Test",
+	"location_id": 6
+}
+
+
+
+### Create a location
+POST http://localhost:8000/api/locations/
+Content-Type: application/json
+
+{
+	"name": "Garden"
+}
+
+
+### Update a device location
+PUT http://localhost:8000/api/devices/
+Content-Type: application/json
+
+{
+	"device_slug": "plop-sensor-test-2",
+	"location_id": 1
+}
