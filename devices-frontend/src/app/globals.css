@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+	@apply rounded min-w-20 uppercase text-sm
+}
+
+/* ---------------------------- COLORS PRIORITIES --------------------------- */
+.bg-primary {
+	@apply bg-blue-400 text-white
+}
+
+.bg-lastly {
+	@apply bg-red-400 text-white
+}
+
+/* -------------------------- COLORS BASED ON STATE ------------------------- */
+.bg-valid {
+	@apply bg-green-400 text-white
+}

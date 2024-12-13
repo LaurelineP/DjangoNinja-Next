@@ -24,5 +24,5 @@ Content-Type: application/json
 
 {
 	"device_slug": "plop-sensor-test-2",
-	"location_id": 1
+	"location_id": null
 }
