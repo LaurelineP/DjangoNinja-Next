@@ -1,17 +1,11 @@
 'use client'
 import { useReducer, useRef, useState } from 'react'
+import { updateDeviceLocation } from './locations-selector.services'
+import { ACTIONS } from './locations-selector.constants'
 
-const ACTIONS = {
-	EDIT: 'edit',
-	SAVE: 'save',
-
-	REMOVE: 'remove',
-	CANCEL: 'cancel',
-
-	RESET: 'reset'
-}
-
-
+/* -------------------------------------------------------------------------- */
+/*                      Buttons States Default and Setter                     */
+/* -------------------------------------------------------------------------- */
 const duetButtonsToggleState = {
 	isEditing: false,
 	firstAction: ACTIONS.EDIT,
@@ -20,25 +14,7 @@ const duetButtonsToggleState = {
 	secondStyle: 'bg-lastly'
 }
 
-const updateDeviceLocation = async( payload ) => {
-	try {
-		const res = await fetch('http://localhost:8000/api/devices', {
-			method: 'put',
-			body: JSON.stringify({
-				device_slug: payload.device_slug,
-				location_id: payload.location_id || null,
-			})
-		})
-		return await res.json()
-	
-	} catch( error ){
-		throw new Error('Update Failed')
-	}
-}
-
-
 const duetButtonsStateToggleReducer = (state, action) => {
-
 	switch(action.type){
 		case ACTIONS.EDIT:
 			return {
@@ -62,6 +38,10 @@ const duetButtonsStateToggleReducer = (state, action) => {
 
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                   HELPERS                                  */
+/* -------------------------------------------------------------------------- */
+
 const getDataAttr = (e, field) => e.target?.dataset?.[field] || e.dataset?.[field]
 
 export default function({ details: _details, options, children: children_preSelector }){
@@ -76,7 +56,7 @@ export default function({ details: _details, options, children: children_preSele
 			secondAction,
 			secondStyle
 		},
-		dispatchPrimaryBehavior
+		dispatchActionBehavior
 	] = useReducer(duetButtonsStateToggleReducer,duetButtonsToggleState)
 
 	/* ---------------------------- SELECTOR RELATED ---------------------------- */
@@ -85,66 +65,26 @@ export default function({ details: _details, options, children: children_preSele
 		selectedIdRef = getDataAttr( selectedOption, 'id' )
 	}
 
+	const onClick = async (e) => {
+		const dataAction = getDataAttr(e, 'action')
+		const shouldFetch = dataAction in [ ACTIONS.SAVE, ACTIONS.REMOVE ]
 
-	/* ----------------------------- BUTTONS RELATED ---------------------------- */
-	const handleEdition = (actionType) => {
-		dispatchPrimaryBehavior({ type: actionType })
-	}
+		// Handles persisting updates
+		if( shouldFetch ){
+			try {
+				const updatedData = await updateDeviceLocation({
+					device_slug: details.slug,
+					location_id: dataAction === ACTIONS.REMOVE
+						? null
+						: selectedIdRef
+				})
 
-	const handleSaving = async actionType => {
-		try {
-			const newData = await updateDeviceLocation({
-				device_slug: details.slug,
-				location_id: selectedIdRef
-			})
-			console.log('newData:', newData)
-			
-			// detailsRef.current = newData
-			setDetails(newData)
-			
-			dispatchPrimaryBehavior({ type: actionType })
-			dispatchPrimaryBehavior({ type: ACTIONS.RESET })
+				if( updatedData ) setDetails( updatedData )
 
-
-		} catch( error ){
-			console.error(' SAVING - ', error)
-
+			} catch (error) { console.error( error )}
 		}
-	}
-
-	const handleRemoval = async (actionType) => {
-		console.log('removal')
-		try {
-			const updatedData = await updateDeviceLocation({
-				device_slug: details.slug,
-				location_id: null
-			})
-			setDetails(updatedData)
-			dispatchPrimaryBehavior({ type: actionType })
-			dispatchPrimaryBehavior({ type: ACTIONS.RESET })
-
-		} catch( error ){
-			console.error(' REMOVAL - ', error)
-		}
-	}
-
-	const handleCancel = actionType => {
-		console.log('cancel')
-		dispatchPrimaryBehavior({ type: ACTIONS.RESET })
-		
-	}
-
-	const actionController = {
-		[ACTIONS.EDIT]: handleEdition,
-		[ACTIONS.SAVE]: handleSaving,
-		[ACTIONS.REMOVE]: handleRemoval,
-		[ACTIONS.CANCEL]: handleCancel,
-	}
-	const onClick = e => {
-		const targetAction = getDataAttr(e, 'action')
-		if( targetAction ){
-			actionController[targetAction](targetAction)
-		}
+		// Handles UI updates
+		dispatchActionBehavior({ type: dataAction })
 	}
 	return(
 		<div className = "flex flex-col">
