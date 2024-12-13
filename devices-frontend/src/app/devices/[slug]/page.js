@@ -8,21 +8,18 @@ export default async function DevicePage({ params }){
 	])
 	return (
 		<div className = "flex flex-col items-center mt-2">
-			<h1 className = "text-4xl">Device: {params.slug}</h1>
-			<div className = "flex flex-col">
-				<p>{ device.name } -  { device.id }</p>
+			<h1 className = "text-4xl mb-12 underline p-2 ">Device: {device.name}</h1>
+			<div className = "flex flex-col gap-5">
+				<p><b>{ device.name }</b> - <em>{ device.id }</em></p>
 				<LocationsSelector
 					details 	= { device }
 					options 	= { locations }
 				>
-					{
-						!!device.location
-							?  (<p>Current Location:</p>)
-							:  (<p>No Location Assigned</p>)
-					}
+					<p>Current Location:</p>
 				</LocationsSelector>
 
 			</div>
 		</div>
+		
 	)
 }

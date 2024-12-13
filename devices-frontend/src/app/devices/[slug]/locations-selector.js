@@ -20,6 +20,21 @@ const duetButtonsToggleState = {
 	secondStyle: 'bg-lastly'
 }
 
+const updateDeviceLocation = async( payload ) => {
+	try {
+		const res = await fetch('http://localhost:8000/api/devices', {
+			method: 'put',
+			body: JSON.stringify({
+				device_slug: payload.device_slug,
+				location_id: payload.location_id || null,
+			})
+		})
+		return await res.json()
+	
+	} catch( error ){
+		throw new Error('Update Failed')
+	}
+}
 
 
 const duetButtonsStateToggleReducer = (state, action) => {
@@ -76,16 +91,12 @@ export default function({ details: _details, options, children: children_preSele
 		dispatchPrimaryBehavior({ type: actionType })
 	}
 
-	const handleSaving = async (actionType) => {
+	const handleSaving = async actionType => {
 		try {
-			const res = await fetch(`http://localhost:8000/api/devices/`, {
-				method: 'put',
-				body: JSON.stringify({
-					device_slug: details.slug,
-					location_id: selectedIdRef // TODO: dynamic value from option selected
-				})
+			const newData = await updateDeviceLocation({
+				device_slug: details.slug,
+				location_id: selectedIdRef
 			})
-			const newData = await res.json()
 			console.log('newData:', newData)
 			
 			// detailsRef.current = newData
@@ -96,24 +107,38 @@ export default function({ details: _details, options, children: children_preSele
 
 
 		} catch( error ){
-			console.error('Error', 'Couln\'t update data')
+			console.error(' SAVING - ', error)
+
 		}
-		// dispatchPrimaryBehavior({ type: actionType })
 	}
 
-	const handleRemoval = (actionType) => {
+	const handleRemoval = async (actionType) => {
 		console.log('removal')
+		try {
+			const updatedData = await updateDeviceLocation({
+				device_slug: details.slug,
+				location_id: null
+			})
+			setDetails(updatedData)
+			dispatchPrimaryBehavior({ type: actionType })
+			dispatchPrimaryBehavior({ type: ACTIONS.RESET })
+
+		} catch( error ){
+			console.error(' REMOVAL - ', error)
+		}
 	}
 
 	const handleCancel = actionType => {
 		console.log('cancel')
+		dispatchPrimaryBehavior({ type: ACTIONS.RESET })
+		
 	}
 
 	const actionController = {
 		[ACTIONS.EDIT]: handleEdition,
 		[ACTIONS.SAVE]: handleSaving,
 		[ACTIONS.REMOVE]: handleRemoval,
-		[ACTIONS.CANCEL]: handleRemoval,
+		[ACTIONS.CANCEL]: handleCancel,
 	}
 	const onClick = e => {
 		const targetAction = getDataAttr(e, 'action')
@@ -121,12 +146,6 @@ export default function({ details: _details, options, children: children_preSele
 			actionController[targetAction](targetAction)
 		}
 	}
-
-	/* -------------------------- OTHER ELEMENTS EVENTS ------------------------- */
-	const onBlur = () => {
-		dispatchPrimaryBehavior({ type: ACTIONS.RESET })
-	}
-
 	return(
 		<div className = "flex flex-col">
 			{ children_preSelector }

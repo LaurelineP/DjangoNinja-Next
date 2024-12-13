@@ -22,7 +22,7 @@ api = NinjaAPI()
 # GET devices
 
 
-@api.get("devices/", response=list[DeviceSchema])
+@api.get("/devices", response=list[DeviceSchema])
 def get_devices(request):
     return Device.objects.all()  # query set returning with json
 
@@ -30,7 +30,7 @@ def get_devices(request):
 # GET devices/<device-slug>
 
 
-@api.get("devices/{slug}/", response=DeviceSchema)
+@api.get("/devices/{slug}/", response=DeviceSchema)
 def get_one_device(request, slug: str):
     device = get_object_or_404(Device, slug=slug)
     return device
@@ -39,7 +39,7 @@ def get_one_device(request, slug: str):
 # POST devices/<device-slug>
 
 
-@api.post("devices/", response={201: DeviceSchema, 404: Error})
+@api.post("/devices", response={201: DeviceSchema, 404: Error})
 def post_one_device(request, device: DeviceCreationSchema):
     # handle error
     if device.location_id:
@@ -52,7 +52,7 @@ def post_one_device(request, device: DeviceCreationSchema):
     return 201, device_created
 
 
-@api.put('devices/', response={200: DeviceSchema, 404: Error})
+@api.put('/devices', response={200: DeviceSchema, 404: Error})
 def put_one_device_location(request, payload: DeviceLocationPutSchema):
 
     device = get_object_or_404(Device, slug=payload.device_slug)
@@ -69,13 +69,13 @@ def put_one_device_location(request, payload: DeviceLocationPutSchema):
 # --------------------------------- LOCATIONS -------------------------------- #
 
 # GET locations/
-@api.get("locations/", response=list[LocationSchema])
+@api.get("/locations", response=list[LocationSchema])
 def get_locations(request):
     return Location.objects.all()  # query set returning with json
 
 
 # GET locations/
-@api.post("locations/", response={201: LocationSchema, 404: Error})
+@api.post("/locations", response={201: LocationSchema, 404: Error})
 def post_one_location(request, location: LocationCreationSchema):
     try:
         location_data = location.model_dump()  # creates dictionary ( pydantic)

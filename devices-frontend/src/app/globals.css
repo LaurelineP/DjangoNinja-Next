@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  --background: linear-gradient(to bottom, #317, #EEE);
+  --foreground: #272728;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: linear-gradient(to bottom, #317, #112);
     --foreground: #ededed;
   }
 }
@@ -18,22 +19,24 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
 }
 
 button {
-	@apply rounded min-w-20 uppercase text-sm
+	@apply rounded min-w-20 uppercase text-sm;
+	font-weight: bold;
 }
 
 /* ---------------------------- COLORS PRIORITIES --------------------------- */
 .bg-primary {
-	@apply bg-blue-400 text-white
+	@apply bg-blue-400 text-white;
 }
 
 .bg-lastly {
-	@apply bg-red-400 text-white
+	@apply bg-red-400 text-white;
 }
 
 /* -------------------------- COLORS BASED ON STATE ------------------------- */
 .bg-valid {
-	@apply bg-green-400 text-white
+	@apply bg-green-400 text-white;
 }

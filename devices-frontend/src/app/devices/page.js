@@ -13,11 +13,11 @@ export default async function DevicesPage (){
 	const devices = await getDevices()
 	return(
 		<div className = "flex flex-col items-center mt-2">
-			<h1 className = "text-4xl">Devices</h1>
+			<h1 className = "text-4xl m-2">Devices</h1>
 			<ul>
 				{
 					devices.map( device => (
-						<li key = {device.id} className="text-x1">
+						<li key = {device.id} className="text-x1 m-2">
 							<Link href = {`/devices/${device.slug}`}>
 								{device.name}
 							</Link>	
