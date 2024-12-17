@@ -1,9 +1,10 @@
-import LocationsSelector from './locations-selector';
-import { getDevice, getLocations } from './services';
+import LocationsSelector from '../../../components/location-selector';
+import { getDevice, getLocations } from '../../services';
 
 export default async function DevicePage({ params }){
+	const { slug } = await params
 	const [ device, locations ] = await Promise.all([
-		getDevice(params.slug),
+		getDevice(slug),
 		getLocations()
 	])
 	return (
@@ -14,10 +15,11 @@ export default async function DevicePage({ params }){
 				<LocationsSelector
 					details 	= { device }
 					options 	= { locations }
+					locations	= { "none" }
+					isWithActions
 				>
 					<p>Current Location:</p>
 				</LocationsSelector>
-
 			</div>
 		</div>
 		

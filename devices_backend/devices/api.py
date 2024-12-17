@@ -18,18 +18,16 @@ api = NinjaAPI()
 # providing validation of the returned structure and documentation
 
 # ---------------------------------- DEVICES --------------------------------- #
+@api.get("/", response=list[DeviceSchema])
+
 
 # GET devices
-
-
 @api.get("/devices", response=list[DeviceSchema])
 def get_devices(request):
     return Device.objects.all()  # query set returning with json
 
 
 # GET devices/<device-slug>
-
-
 @api.get("/devices/{slug}/", response=DeviceSchema)
 def get_one_device(request, slug: str):
     device = get_object_or_404(Device, slug=slug)
@@ -37,8 +35,6 @@ def get_one_device(request, slug: str):
 
 
 # POST devices/<device-slug>
-
-
 @api.post("/devices", response={201: DeviceSchema, 404: Error})
 def post_one_device(request, device: DeviceCreationSchema):
     # handle error
