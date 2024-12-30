@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "devices",
     "django_extensions",
     "corsheaders",
+	"ninja_extra"
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+# django settings.py
+NINJA_EXTRA = {
+    'THROTTLE_RATES': {
+        'user': '1000/day',
+        'anon': '2/day',
+    },
+    'NUM_PROXIES': None
+}

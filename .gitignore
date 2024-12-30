@@ -1,2 +1,9 @@
-__*.md
-venv*
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Node
+node_modules/
+.next/

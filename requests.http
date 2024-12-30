@@ -3,8 +3,8 @@ POST http://localhost:8000/api/devices/
 Content-Type: application/json
 
 {
-	"name": "Plop Sensor Test",
-	"location_id": 6
+	"name": "Plop Sensor Test ouiiii",
+	"location_id": 3
 }
 
 
