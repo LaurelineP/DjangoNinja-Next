@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from devices.api import api
+from devices.views import render_home
 
 urlpatterns = [
+	path("", render_home),
     path("admin/", admin.site.urls),
     path("api/", api.urls),
 ]

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;200&display=swap" rel="stylesheet">
+		<title>IO/Linkr Server</title>
+		<style>
+			body {
+				color: #eee;
+				background: linear-gradient(to top, rgb(32, 11, 74), #317);
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				font-family: 'Roboto', sans-serif;
+			}
+			main {
+				height: 30%;
+				h1 {
+					text-transform: uppercase;
+					letter-spacing: 5px;
+					margin-bottom: 50px;
+				}
+				ul {
+					list-style-type: none;
+					padding: 20px;
+				}
+				hr {
+					border: 0;
+					height: 1px;
+					background: #eeeeee50;
+					margin: 20px 0;
+					border-radius: 10px;
+				}
+				li {
+					margin: 10px 0;
+					color: #ddd;
+					font-style: italic;
+					font-weight: 200;
+				}
+				a {
+					text-decoration: none;
+					color: #eee;
+					margin-left: 15px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<h1>IO/Linkr Server</h1>
+			<ul>
+				<li>&gt; <a href = "/admin">Back Office</a></li>
+				<li>&gt; <a href = "/api/docs">API Documentation</a></li>
+				<hr>
+				<li>&gt; <a href = "http://localhost:3000/">Front End</a></li>
+			</ul>
+		</main>
+
+	</body>
+</html>

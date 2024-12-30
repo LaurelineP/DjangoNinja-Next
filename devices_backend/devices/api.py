@@ -1,6 +1,8 @@
 
+
 from ninja_extra import NinjaExtraAPI, api_controller, route, permissions, throttle
 from devices.models import Device, Location
+from django.http import HttpRequest
 from devices.schemas import (
     DeviceSchema,
     LocationSchema,
@@ -10,22 +12,20 @@ from devices.schemas import (
     Error,
 )
 from django.shortcuts import get_object_or_404
+from .views import render_home
 
 
 api = NinjaExtraAPI()
 
+# See ../devices_backend/urls.py to access project exposed urls
+
 # ---------------------------------- DEVICES --------------------------------- #
-@api.get("/", response=list[DeviceSchema])
-
-
-
-
 @api_controller("/devices", tags = ['Devices'] )
 class DeviceController():
 
 	# GET /devices - Gets all devices
-	@route.get('/', response = list[DeviceSchema],  permissions = [ permissions.IsAuthenticatedOrReadOnly ])
-	@throttle
+	@route.get('/', response = list[DeviceSchema],  permissions = [])
+	# @throttle
 	def get_devices(self):
 		return Device.objects.all()
 
@@ -56,12 +56,6 @@ class DeviceController():
 			device.location = None
 		device.save()
 		return 200, device
-
-
-	# @route.get('/{slug}', response=list[DeviceSchema])
-	# def get_one_device(self, request, slug: str):
-	# 	device = get_object_or_404(Device, slug=slug)
-	# 	return device
 
 
 # GET devices/<device-slug>

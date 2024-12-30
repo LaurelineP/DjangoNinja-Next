@@ -59,7 +59,7 @@ ROOT_URLCONF = "devices_backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [ BASE_DIR / "devices/templates" ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

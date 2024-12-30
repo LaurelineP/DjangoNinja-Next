@@ -2,12 +2,11 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Fragment } from 'react'
-
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export default function () {
@@ -34,7 +33,7 @@ export default function () {
 						<Fragment key = {`${idx}-${pathDetails[0]}`}>
 						
 							<BreadcrumbItem className = "text-white/90 capitalize">
-								<BreadcrumbLink href={ pathDetails[1]}>{pathDetails[0]}</BreadcrumbLink>
+								<Link href = {pathDetails[1]}>{pathDetails[0]}</Link>
 							</BreadcrumbItem>
 
 							{ !(idx === self.length - 1) && <BreadcrumbSeparator />}

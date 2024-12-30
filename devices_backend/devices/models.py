@@ -2,9 +2,6 @@ import uuid
 from django.db import models
 from django_extensions.db.fields import AutoSlugField
 
-# Create your models here.
-
-
 class Location(models.Model):
     name = models.CharField(max_length=200)
 
