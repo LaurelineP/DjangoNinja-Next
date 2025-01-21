@@ -1,9 +1,0 @@
-# Django and core dependencies
-Django>=5.1.4
-django-ninja>=1.0.1
-django-ninja-extra>=0.21.8
-django-cors-headers>=4.3.1
-django-extensions>=3.2.3
-
-# Development tools
-python-dotenv>=1.0.0

@@ -91,13 +91,18 @@ Adding controller is done using Django Ninja Extra enabling us
 to control the resources access based on an authentications and some  
 permissions embeded tools.
 
+## How to run 
+From project root with existing `venv` installed with packages
+- Activate virtual venv - `source backend/venv/bin/activate`
+- Run server first ( on one terminal ): `python backend/manage.py runserver`
+- Run frontend ( on another terminal ): `cd frontend && pnpm dev`
 
-## How to run
+## How to setup then run project as dev
 __Server__
-	- setup venv: `python -m venv <venv-folder-name>`
+	- setup venv: `python -m venv <venv-folder-name>`  
 	- make sure to activate your venv interpreter:  
-	`source venv/bin/activate`
-	- install packages: `pip install -r requirements.txt`
+	`source venv/bin/activate`  
+	- install packages (if needed): `pip install -r requirements.txt`
 	- run server: `cd devices_backend && python manage.py runserver`
 __Frontend__
 	- setup frontend environment: `pnpm install`
